@@ -9,7 +9,7 @@
       guac_student_password: 'password'
       student_total: 15
       ec2_name_prefix: classroom
-      domain: puppet.com
+      domain: example.com
       ansible_host: localhost
       guacamole_server: hostname.ec2_name_prefix.domain
       guacamole_prot: https
@@ -17,7 +17,7 @@
       guac_db: postgresql
       courseid: ''
       rdp_username: administrator
-      rdp_password: Puppetlabs!
+      rdp_password: Password!
 
   tasks:
 
