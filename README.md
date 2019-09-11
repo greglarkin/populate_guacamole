@@ -1,7 +1,7 @@
 populate_guacamole
 --------------
 
-This role takes input variables and populates the AWS Apache Guacamole Bastion Host with Users for Red Hat Linklight workshops, and associated SSH and RDP Connections
+This role takes input variables and populates the Apache Guacamole Bastion host, and associated SSH and RDP Connections
 
 
 Requirements
@@ -26,20 +26,41 @@ The entire URL will have the format of studentX.ec2_name_prefix.domain. i.e., `s
 Example Inventory
 ----------------
 
-```
-[guacamole]
-18.205.67.151 ansible_host=18.205.67.151 ansible_user=ec2-user ansible_ssh_private_key_file=~/.ssh/useast-1-key.pem
+Example Usage
+-------------
 
 ```
+# install ansible first and may force upgarde of python
+
+ansible-playbook --connection=local -i 127.0.0.1,  -e=@vars/main.yml playbook.yaml -v
+```
+
+Example Inventory
+----------------
+
+```
+[guacamole]
+127.0.0.1 ansible_host=127.0.0.1 
+```
+
 Example Input/Extra Variables
 ----------------
 ```
-GUAC_USERNAME: guacadmin
-GUAC_PASSWORD: password
-student_total: 20
-ec2_name_prefix: test-workshop
-domain: rhdemo.io
-password: ansible
+  vars:
+      GUAC_USERNAME: guacadmin
+      GUAC_PASSWORD: guacadmin
+      guac_student_password: 'password'
+      student_total: 15
+      ec2_name_prefix: classroom
+      domain: example.com
+      ansible_host: localhost
+      guacamole_server: hostname.ec2_name_prefix.domain
+      guacamole_prot: https
+      guacamole_port: 443
+      guac_db: postgresql
+      courseid: ''
+      rdp_username: administrator
+      rdp_password: Password!
 ```
 
 Example Playbook
