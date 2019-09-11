@@ -1,0 +1,41 @@
+---
+- name: Populate Apache Guacamole with Users and Connections
+  hosts: 127.0.0.1
+  gather_facts: False
+# vars file for populate_guacamole
+  vars:
+      GUAC_USERNAME: guacadmin
+      GUAC_PASSWORD: guacadmin
+      guac_student_password: 'password'
+      student_total: 15
+      ec2_name_prefix: classroom
+      domain: puppet.com
+      ansible_host: localhost
+      guacamole_server: hostname.ec2_name_prefix.domain
+      guacamole_prot: https
+      guacamole_port: 443
+      guac_db: postgresql
+      courseid: ''
+      rdp_username: administrator
+      rdp_password: Puppetlabs!
+
+  tasks:
+
+    - name: Set guacamole_server fact
+      set_fact:
+        guacamole_server: "{{ ansible_host }}"
+
+    - name: Invoke populate_guacamole role
+      include_role:
+        name: populate_guacamole
+      with_sequence: start=0 count="{{ student_total }}"
+
+    - name: Clean Up JSON Files
+      file:
+        path: "{{ playbook_dir }}/{{ item }}"
+        state: absent
+      with_items:
+        - rdp_connection.json
+        - ssh_connection.json
+        - users.json
+      delegate_to: localhost
