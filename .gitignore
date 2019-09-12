@@ -1,2 +1,3 @@
 _tmp
 *.retry
+.DS_Store
